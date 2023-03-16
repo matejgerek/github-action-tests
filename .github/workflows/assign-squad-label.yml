@@ -1,0 +1,18 @@
+name: Assign Squad Label
+on:
+  issues:
+    types:
+      - assigned
+jobs:
+    assign-squad-label:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Get assignees
+              id: get-assignees
+              uses: actions/github-script@v3
+              with:
+                  github-token: ${{secrets.GITHUB_TOKEN}}
+                  script: |
+                      const assignees = context.payload.issue.assignees.map(assignee => assignee.login)
+                      console.log({assignees})
+                      return assignees
