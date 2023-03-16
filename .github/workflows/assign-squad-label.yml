@@ -16,3 +16,15 @@ jobs:
                       const assignees = context.payload.issue.assignees.map(assignee => assignee.login)
                       console.log({assignees})
                       return assignees
+            - name: Get labels based on assignees
+              id: get-labels
+              uses: actions/github-script@v3
+              with:
+                  github-token: ${{secrets.GITHUB_TOKEN}}
+                  script: |
+                      const assignees = ${{steps.get-assignees.outputs.assignees}}
+                      const squadMapping = require('./squad-mapping.json')
+                      const labels = Object.keys(squadMapping).filter(squad => squadMapping[squad].some(assignee => assignees.includes(assignee)))
+                      console.log({labels})
+                      return labels
+              
