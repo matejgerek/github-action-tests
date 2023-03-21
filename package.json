@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/matejgerek/github-action-tests/issues"
   },
-  "homepage": "https://github.com/matejgerek/github-action-tests#readme"
+  "homepage": "https://github.com/matejgerek/github-action-tests#readme",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  }
 }

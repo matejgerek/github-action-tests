@@ -15,24 +15,14 @@ jobs:
                   script: |
                       const assignees = context.payload.issue.assignees.map(assignee => assignee.login)
                       console.log({assignees})
+                      
                       return assignees
-            - name: Get labels based on assignees
-              id: get-labels
-              uses: mikefarah/yq@master
-              with:
-                  cmd: yq r .github/workflows/squad-mapping.yml $(echo ${{join(steps.get-assignees.outputs.assignees, ' ')}} | tr ' ' '.')
             - name: Add labels
               id: add-labels
-              uses: actions/github-script@v3
+              env:
+                GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
               with:
-                  github-token: ${{secrets.GITHUB_TOKEN}}
-                  script: |
-                      const labels = context.payload.issue.labels.map(label => label.name)
-                      const newLabels = labels.concat(${{join(steps.get-labels.outputs.stdout, ' ')}})
-                      console.log({newLabels})
-                      github.issues.addLabels({
-                          issue_number: context.issue.number,
-                          owner: context.repo.owner,
-                          repo: context.repo.repo,
-                          labels: newLabels
-                      })  
+                assignees: ${{ steps.get-assignees.outputs.assignees }}
+                repo_token: ${{ secrets.GITHUB_TOKEN }}
+              run: |
+                node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
