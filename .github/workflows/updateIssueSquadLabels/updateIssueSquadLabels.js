@@ -2,7 +2,7 @@ const squadMapping = require('./squadMapping.json');
 const { getOctokit, context } = require("@actions/github");
 const squadLabels = new Set(squadMapping.map(mapping => mapping.label));
 
-async function updateIssueSquadLabels() {
+const updateIssueSquadLabels = async () => {
   const assignees = context.payload.issue.assignees;
   const currentLabels = context.payload.issue.labels.map(label => label.name);
   const issueNumber = context.payload.issue.number;
@@ -32,7 +32,7 @@ async function updateIssueSquadLabels() {
       labels: Array.from(labelsToAdd),
     });
   }
-}
+};
 
 exports.module = {
     updateIssueSquadLabels
