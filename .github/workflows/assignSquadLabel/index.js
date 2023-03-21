@@ -13,7 +13,7 @@ const run = async () => {
   }).filter(label => label !== null);
 
   // Add labels to the issue
-  const octokit = github.getOctokit(core.getInput('github-token'));
+  const octokit = github.getOctokit(process.env.GITHUB_AUTH);
   console.log({octokit})
   await octokit.issues.addLabels({
     owner: github.context.repo.owner,
