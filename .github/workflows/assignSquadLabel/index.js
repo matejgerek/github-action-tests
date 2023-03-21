@@ -17,6 +17,8 @@ const run = async () => {
   // Add labels to the issue
   const octokit = github.getOctokit(process.env.GITHUB_AUTH);
 
+  console.log({GITHUB_AUTH: process.env.GITHUB_AUTH})
+
   console.log({octokit})
 
     await octokit.rest.issues.addLabels({
