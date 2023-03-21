@@ -25,7 +25,7 @@ const updateIssueSquadLabels = async () => {
 
   const labelsToAdd = new Set(labelsByAssignees.filter(label => !currentLabels.includes(label)));
 
-  console.log(labelsToAdd, labelsByAssignees, currentLabels);
+  console.log({labelsToAdd, labelsByAssignees, currentLabels});
 
   if (labelsToAdd.size > 0) {
     await client.issues.addLabels({
