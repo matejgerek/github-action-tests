@@ -1,16 +1,9 @@
 const core = require("@actions/core");
+const github = require("@actions/github");
 
 const run = () => {
-    const githubToken = core.getInput('github_token', { required: true });
-
-    const assignees = core
-      .getInput('assignees')
-      .split('\n')
-      .filter(l => l !== '');
-
-    console.log('assignees', assignees);
-    console.log('githubToken', githubToken);
-
+    const assignees = github.context.payload.issue
+    console.log(assignees)
 }
 
 run();

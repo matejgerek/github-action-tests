@@ -32,21 +32,8 @@ jobs:
 
             - run: npm ci
                   
-            - name: Get assignees
-              id: get-assignees
-              uses: actions/github-script@v3
-              with:
-                  github-token: ${{secrets.GITHUB_TOKEN}}
-                  script: |
-                      const assignees = context.payload.issue.assignees.map(assignee => assignee.login)
-                      console.log({assignees})
-                      
-                      return assignees
             - name: Add labels
               id: add-labels
               env:
                 GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
               run: node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
-              with:
-                assignees: ${{ steps.get-assignees.outputs.assignees }}
-                github-token: ${{ secrets.GITHUB_TOKEN }}
