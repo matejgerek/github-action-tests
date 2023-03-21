@@ -14,6 +14,7 @@ const run = async () => {
   }).filter(label => label !== null);
 
   const issue_number = context.payload.issue.number;
+  console.log({labelsByAssignees})
 
   const {rest: client} = getOctokit(process.env.GITHUB_AUTH);
 
