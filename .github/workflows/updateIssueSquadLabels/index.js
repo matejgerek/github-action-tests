@@ -1,3 +1,3 @@
-import {updateIssueSquadLabels} from "./updateIssueSquadLabels";
+const {updateIssueSquadLabels} = require("./updateIssueSquadLabels");
 
 updateIssueSquadLabels()
