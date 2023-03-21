@@ -31,5 +31,4 @@ jobs:
               with:
                 assignees: ${{ steps.get-assignees.outputs.assignees }}
                 repo_token: ${{ secrets.GITHUB_TOKEN }}
-              run: |
-                node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
+              run: node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
