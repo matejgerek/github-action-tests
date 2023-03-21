@@ -26,10 +26,6 @@ jobs:
                       return assignees
             - name: Add labels
               id: add-labels
-              uses: actions/github-script@v3
               env:
                 GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
-              with:
-                assignees: ${{ steps.get-assignees.outputs.assignees }}
-                repo_token: ${{ secrets.GITHUB_TOKEN }}
               run: node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
