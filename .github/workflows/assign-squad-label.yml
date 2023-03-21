@@ -31,7 +31,7 @@ jobs:
                   ${{ runner.os }}-
 
             - run: npm ci
-                  
+
             - name: Add labels
               id: add-labels
               env:
