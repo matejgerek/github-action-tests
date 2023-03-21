@@ -1,6 +1,6 @@
 const core = require("@actions/core");
-import * as github from '@actions/github';
 const squadMapping = require('./squad-mapping.json');
+const {getOctokit, context} = require("@actions/github");
 
 
 const run = async () => {
@@ -14,10 +14,19 @@ const run = async () => {
 
   console.log({labels})
 
-  // Add labels to the issue
-  const octokit = new github.GitHub(process.env.GITHUB_TOKEN);
+const issue_number = context.payload.issue.number;
 
-  console.log({octokit})
+  console.log({issue_number})
+
+  const {rest: client} = getOctokit(process.env.GITHUB_TOKEN);
+
+  await client.issues.addLabels({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      issue_number,
+      labels,
+  })
+
 }
 
 run();
