@@ -1,21 +1,19 @@
-name: Assign Squad Label
+name: Update issue squad labels
 on:
   issues:
     types:
       - assigned
       - unassigned
 jobs:
-    assign-squad-label:
+    update-issue-squad-labels:
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v2
               with:
                 fetch-depth: 0
-
             - uses: actions/setup-node@v1
               with:
                 node-version: "16.12.0"
-
             - name: Cache node modules
               uses: actions/cache@v2
               env:
@@ -30,11 +28,9 @@ jobs:
                   ${{ runner.os }}-build-${{ env.cache-name }}-
                   ${{ runner.os }}-build-
                   ${{ runner.os }}-
-
             - run: npm ci
-
-            - name: Add labels
-              id: add-labels
+            - name: Update issue labels
+              id: update-issue-labels
               env:
                 GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
-              run: node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
+              run: node ${GITHUB_WORKSPACE}/.github/workflows/updateIssueSquadLabels
