@@ -1,4 +1,3 @@
-const core = require("@actions/core");
 const squadMapping = require('./squad-mapping.json');
 const { getOctokit, context } = require("@actions/github");
 
