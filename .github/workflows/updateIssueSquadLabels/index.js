@@ -1,7 +1,6 @@
 
 const squadMapping = require('./squadMapping.json');
 const { getOctokit, context } = require("@actions/github");
-const squadLabels = new Set(squadMapping.map(mapping => mapping.label));
 
 const updateIssueSquadLabels = async () => {
   const assignees = context.payload.issue.assignees;
@@ -12,7 +11,7 @@ const updateIssueSquadLabels = async () => {
 
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
-  const labelsToRemove = currentLabels.filter(label => squadLabels.has(label) && !labelsByAssignees.includes(label));
+  const labelsToRemove = currentLabels.filter(!labelsByAssignees.includes);
 
   labelsToRemove.forEach(async (label) => {
     await client.issues.removeLabel({
@@ -25,7 +24,7 @@ const updateIssueSquadLabels = async () => {
 
   const labelsToAdd = new Set(labelsByAssignees.filter(label => !currentLabels.includes(label)));
 
-  console.log({labelsToAdd, labelsByAssignees, currentLabels, labelsToRemove, squadLabels});
+  console.log({labelsToAdd, labelsByAssignees, currentLabels, labelsToRemove});
 
   if (labelsToAdd.size > 0) {
     await client.issues.addLabels({
