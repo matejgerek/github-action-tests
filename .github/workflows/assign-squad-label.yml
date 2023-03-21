@@ -47,3 +47,6 @@ jobs:
               env:
                 GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
               run: node ${GITHUB_WORKSPACE}/.github/workflows/assignSquadLabel
+              with:
+                assignees: ${{ steps.get-assignees.outputs.assignees }}
+                github-token: ${{ secrets.GITHUB_TOKEN }}
