@@ -18,7 +18,7 @@ const issue_number = context.payload.issue.number;
 
   console.log({issue_number})
 
-  const {rest: client} = getOctokit(process.env.GITHUB_TOKEN);
+  const {rest: client} = getOctokit(process.env.GITHUB_AUTH);
 
   await client.issues.addLabels({
       owner: context.repo.owner,
