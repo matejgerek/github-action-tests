@@ -11,7 +11,7 @@ const updateIssueSquadLabels = async () => {
 
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
-  const labelsToRemove = currentLabels.filter(label => !labelsByAssignees.includes(label));
+  const labelsToRemove = currentLabels.filter(label => label.includes('Squad') && !labelsByAssignees.includes(label));
 
   labelsToRemove.forEach(async (label) => {
     await client.issues.removeLabel({
@@ -23,8 +23,6 @@ const updateIssueSquadLabels = async () => {
   });
 
   const labelsToAdd = new Set(labelsByAssignees.filter(label => !currentLabels.includes(label)));
-
-  console.log({labelsToAdd, labelsByAssignees, currentLabels, labelsToRemove});
 
   if (labelsToAdd.size > 0) {
     await client.issues.addLabels({
