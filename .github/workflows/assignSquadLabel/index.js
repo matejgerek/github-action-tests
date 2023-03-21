@@ -34,12 +34,14 @@ const run = async () => {
 
   const labelsToAdd = labelsByAssignees.filter(label => !currentLabels.includes(label));
 
-  await client.issues.addLabels({
-    owner: context.repo.owner,
-    repo: context.repo.repo,
-    issue_number,
-    labels: labelsToAdd,
-  });
+  if(labelsToAdd.length > 0) {
+    await client.issues.addLabels({
+      owner: context.repo.owner,
+      repo: context.repo.repo,
+      issue_number,
+      labels: labelsToAdd,
+    });
+  }
 };
 
 run();
