@@ -11,7 +11,7 @@ const updateIssueSquadLabels = async () => {
 
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
-  const labelsToRemove = currentLabels.filter(!labelsByAssignees.includes);
+  const labelsToRemove = currentLabels.filter(label => !labelsByAssignees.includes(label));
 
   labelsToRemove.forEach(async (label) => {
     await client.issues.removeLabel({
