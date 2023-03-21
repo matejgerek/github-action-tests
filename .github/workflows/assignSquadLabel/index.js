@@ -12,15 +12,16 @@ const run = async () => {
     return squad ? squad.label : null;
   }).filter(label => label !== null);
 
+  console.log({labels})
+
   // Add labels to the issue
   const octokit = github.getOctokit(process.env.GITHUB_AUTH);
-  console.log({octokit})
-  await octokit.issues.addLabels({
-    owner: github.context.repo.owner,
-    repo: github.context.repo.repo,
-    issue_number: github.context.payload.issue.number,
-    labels: labels
-  });
+    await octokit.issues.addLabels({
+        owner: github.context.repo.owner,
+        repo: github.context.repo.repo,
+        issue_number: github.context.payload.issue.number,
+        labels: labels
+    })
 }
 
 run();
