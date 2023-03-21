@@ -6,13 +6,16 @@ const {getOctokit, context} = require("@actions/github");
 const run = async () => {
   const assignees = context.payload.issue.assignees || [];
 
-  // Find corresponding labels for each assignee
-  const labels = assignees.map(assignee => {
+  const currentLabels = context.payload.issue.labels || [];
+
+  console.log({currentLabels})
+
+  const labelsByAssignees = assignees.map(assignee => {
     const squad = squadMapping.find(mapping => mapping.login === assignee.login);
     return squad ? squad.label : null;
   }).filter(label => label !== null);
 
-  console.log({labels})
+  console.log({labelsByAssignees})
 
 const issue_number = context.payload.issue.number;
 
@@ -24,7 +27,7 @@ const issue_number = context.payload.issue.number;
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number,
-      labels,
+      labels: labelsByAssignees,
   })
 
 }
