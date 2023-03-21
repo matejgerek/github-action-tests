@@ -7,6 +7,13 @@ jobs:
     assign-squad-label:
         runs-on: ubuntu-latest
         steps:
+            - uses: actions/checkout@v2
+              with:
+                fetch-depth: 0
+
+            - uses: actions/setup-node@v1
+              with:
+                node-version: "16.12.0"
             - name: Get assignees
               id: get-assignees
               uses: actions/github-script@v3
