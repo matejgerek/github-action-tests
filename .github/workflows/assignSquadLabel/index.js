@@ -5,6 +5,7 @@ const {getOctokit, context} = require("@actions/github");
 
 const run = async () => {
   const assignees = context.payload.issue.assignees || [];
+  console.log(context.payload.issue)
   const currentLabels = (context.payload.issue.labels || []).map(label => label.name);
 
   const labelsByAssignees = assignees.map(assignee => {
