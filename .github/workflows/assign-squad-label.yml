@@ -29,6 +29,8 @@ jobs:
                   ${{ runner.os }}-build-${{ env.cache-name }}-
                   ${{ runner.os }}-build-
                   ${{ runner.os }}-
+
+            - run: npm ci
                   
             - name: Get assignees
               id: get-assignees
