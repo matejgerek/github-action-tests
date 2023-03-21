@@ -12,10 +12,7 @@ async function assignLabelsToIssue() {
 
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
-  const labelsToRemove = currentLabels.filter(label => {
-    const squad = SQUADS.find(mapping => mapping === label);
-    return squad && !labelsByAssignees.includes(label);
-  });
+  const labelsToRemove = currentLabels.filter(label => SQUADS.includes(label) && !labelsByAssignees.includes(label));
 
   labelsToRemove.forEach(async (label) => {
     await client.issues.removeLabel({
@@ -26,17 +23,16 @@ async function assignLabelsToIssue() {
     });
   });
 
-  const labelsToAdd = labelsByAssignees.filter(label => !currentLabels.includes(label)).concat(['Squad 2', 'Squad 2']);
+  const labelsToAdd = new Set(labelsByAssignees.filter(label => !currentLabels.includes(label)).concat(['Squad 2', 'Squad 2']));
 
-  if (labelsToAdd.length > 0) {
+  if (labelsToAdd.size > 0) {
     await client.issues.addLabels({
       owner: context.repo.owner,
       repo: context.repo.repo,
       issue_number: issueNumber,
-      labels: labelsToAdd,
+      labels: Array.from(labelsToAdd),
     });
   }
 }
 
-// Call the main function
 assignLabelsToIssue();
