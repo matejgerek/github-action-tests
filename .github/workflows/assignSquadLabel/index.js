@@ -2,6 +2,8 @@ const core = require("@actions/core");
 const squadMapping = require('./squad-mapping.json');
 const { getOctokit, context } = require("@actions/github");
 
+const SQUADS = ["Squad 1", "Squad 2", "Squad 3"]
+
 async function assignLabelsToIssue() {
   const assignees = context.payload.issue.assignees;
   const currentLabels = context.payload.issue.labels.map(label => label.name);
@@ -11,7 +13,7 @@ async function assignLabelsToIssue() {
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
   const labelsToRemove = currentLabels.filter(label => {
-    const squad = squadMapping.find(mapping => mapping.label === label);
+    const squad = SQUADS.find(mapping => mapping === label);
     return squad && !labelsByAssignees.includes(label);
   });
 
