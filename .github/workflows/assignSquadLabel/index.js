@@ -19,7 +19,7 @@ const run = async () => {
 
   console.log({octokit})
 
-    await octokit.issues.addLabels({
+    await octokit.rest.issues.addLabels({
         owner: github.context.repo.owner,
         repo: github.context.repo.repo,
         issue_number: github.context.payload.issue.number,
