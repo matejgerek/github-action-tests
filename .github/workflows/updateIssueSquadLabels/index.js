@@ -9,6 +9,13 @@ const updateIssueSquadLabels = async () => {
 
   const { rest: client } = getOctokit(process.env.GITHUB_AUTH);
 
+  const test = await client.listMembersInOrg({
+  org: 'sudolabs-io',
+  team_slug: 'the-expert-squad-2',
+});
+  console.log(test)
+
+
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
   const labelsToRemove = currentLabels.filter(label => label.includes('Squad') && !labelsByAssignees.includes(label));
