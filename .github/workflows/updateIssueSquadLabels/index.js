@@ -9,7 +9,7 @@ const updateIssueSquadLabels = async () => {
 
   const { rest: client } = getOctokit(process.env.GITHUB_AUTH);
 
-  const test = await client.listMembersInOrg({
+  const test = await client.teams.listMembersInOrg({
   org: 'sudolabs-io',
   team_slug: 'the-expert-squad-2',
 });
