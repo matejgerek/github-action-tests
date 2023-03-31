@@ -9,36 +9,19 @@ const updateIssueSquadLabels = async () => {
 
   const { rest: client } = getOctokit(process.env.GITHUB_AUTH);
 
-  const test = await client.teams.listMembersInOrg({
-  org: 'sudolabs-io',
-  team_slug: 'the-expert-squad-2',
-});
-  console.log(test)
-
-
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
-  const labelsToRemove = currentLabels.filter(label => label.includes('Squad') && !labelsByAssignees.includes(label));
+  const updatedLabels = [...new Set([...currentLabels, ...labelsByAssignees])];
 
-  labelsToRemove.forEach(async (label) => {
-    await client.issues.removeLabel({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: issueNumber,
-      name: label,
-    });
-  });
+  console.log({updatedLabels})
 
-  const labelsToAdd = new Set(labelsByAssignees.filter(label => !currentLabels.includes(label)));
+  await client.issues.setLabels({
+    owner: context.repo.owner,
+    repo: context.repo.repo,
+    issue_number: issueNumber,
+    labels: updatedLabels
+  })
 
-  if (labelsToAdd.size > 0) {
-    await client.issues.addLabels({
-      owner: context.repo.owner,
-      repo: context.repo.repo,
-      issue_number: issueNumber,
-      labels: Array.from(labelsToAdd),
-    });
-  }
 };
 
 
