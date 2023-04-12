@@ -8,12 +8,11 @@ const updateIssueSquadLabels = async () => {
   const issueNumber = context.payload.issue.number;
 
   const { rest: client } = getOctokit(process.env.GITHUB_AUTH);
+  console.log(process.env.SQUAD_SETTINGS)
 
   const labelsByAssignees = assignees.flatMap(assignee => squadMapping.find(mapping => mapping.login === assignee.login)?.label ?? []);
 
   const updatedLabels = [...new Set([...currentLabelsWithoutSquadLabels, ...labelsByAssignees])];
-
-  console.log({updatedLabels})
 
   await client.issues.setLabels({
     owner: context.repo.owner,

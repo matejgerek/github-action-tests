@@ -33,4 +33,5 @@ jobs:
               id: update-issue-labels
               env:
                 GITHUB_AUTH: ${{secrets.GITHUB_TOKEN}}
+                SQUAD_SETTINGS: "the-expert-squad-1:Squad 1,the-expert-squad-2:Squad 2"
               run: node ${GITHUB_WORKSPACE}/.github/workflows/updateIssueSquadLabels
